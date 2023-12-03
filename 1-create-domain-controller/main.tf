@@ -1,5 +1,17 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0, < 4.0"
+    }
+    # Add other providers and versions as needed
+  }
+
+}
+
 provider "azurerm" {
-  features {}
+  features {
+      }
 }
 
 resource "azurerm_resource_group" "vnet_hub" {
@@ -14,7 +26,6 @@ resource "azurerm_virtual_network" "vnet_hub" {
 
   address_space = [var.vnet_hub_address_space]
   dns_servers   = [var.dc_private_ip_address]
-
 }
 
 resource "azurerm_subnet" "subnets" {
@@ -54,7 +65,6 @@ module "azure_dc" {
       destination_port_range = "3389"
       source_address_prefix  = "*"
     },
-
     {
       name                   = "dns"
       destination_port_range = "53"
@@ -67,6 +77,3 @@ module "azure_dc" {
     azurerm_subnet.subnets
   ]
 }
-
-
-
